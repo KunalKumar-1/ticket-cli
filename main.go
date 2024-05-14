@@ -7,14 +7,16 @@ import (
 	"image/color"
 	_ "image/png"
 	"os"
+	//"os/exec"
 	"sync"
 	"time"
+    "github.com/mbndr/figlet4go"
 )
 
-// package level variable
+// package level variable 
 const conferenceTickets int = 100
 
-var conferenceName = "GEEX"
+var conferenceName = "GEEX ENVENT'S"
 
 var remainingTickets uint = 100
 var bookings = make([]UserData, 0) //creating empty lists of map   //now  //struct
@@ -28,6 +30,21 @@ type UserData struct {
 }
 
 var wg = sync.WaitGroup{} //creating waitgroup , package "sync" provides basic synncronization functionality
+
+// func  execute(cmd string) { //terminal cmd comamnds
+// 	out, err := exec.Command(cmd).Output()
+
+// 	if err != nil {
+// 		fmt.Printf("%s",err)
+// 	}
+//     output := string(out[:])
+// 	fmt.Println(output)
+// }
+
+// creating func center to align the greeting text in center
+func center(s string, w int) string {
+	return fmt.Sprintf("%[1]*s", -w, fmt.Sprintf("%[1]*s", (w+len(s))/2, s))
+}
 
 func loadImage(filePath string) (image.Image, error) {
 	f, err := os.Open(filePath)
@@ -102,28 +119,56 @@ func main() {
 	}
 	wg.Wait() //Blocks until the WaitGroup counter is 0
 }
+func figletAsii(name string) {
+	//Renderer
+	ascii := figlet4go.NewAsciiRender()
+    // Adding the colors to RenderOptions
+	options := figlet4go.NewRenderOptions()
+	options.FontColor = []figlet4go.Color{
+		//adding color to the Text
+		figlet4go.ColorGreen,
+
+	} 
+	renderStr, _ := ascii.RenderOpts(conferenceName,options)
+	fmt.Println(center(renderStr,180))
+}
 
 func greetUser() {
-	//loading image & calculations for the display
+	//loading image & calculations of renderer for the display
 	img, err := loadImage("image/final.png")
 	if err != nil {
 		panic(err)
 	}
-	ramp := "@#+=/. " //@#+=.
+	ramp := "@#:|:. " //@#+=.
 	max := img.Bounds().Max
-	scaleX, scaleY := 10, 5
+	scaleX, scaleY := 10, 5 //scale
 	for y := 0; y < max.Y; y += scaleX {
 		for x := 0; x < max.X; x += scaleY {
 			c := avgPixel(img, x, y, scaleX, scaleY)
 			fmt.Print(string(ramp[len(ramp)*c/65536]))
 		}
+		//time.Sleep(time.Second)
 		fmt.Println()
 	}
-	time.Sleep(3 * time.Second)
+	time.Sleep(1 * time.Second)
+	for j:= 0; j<190; j++{
+		fmt.Print("-")
+	}
+	//fmt.Println(center(conferenceName,110))
+	greeting := fmt.Sprintf("WELCOME TO (%v) EVENT BOOKING CLI.\n\n", conferenceName)
+	greetings := fmt.Sprintf("We have total of %v tickets and %v are still available.\n\n", conferenceTickets, remainingTickets)
+	greetingss := fmt.Sprintf("|| GRAB THE LIMITED PASS HERE ||")
 	fmt.Println("\n\n")
-	fmt.Printf("                                                                   WELCOME TO (%v) EVENT BOOKING CLI.\n\n", conferenceName)
-	fmt.Printf("                                                          We have total of %v tickets and %v are still available.\n\n", conferenceTickets, remainingTickets)
-	fmt.Println("                                                                         || GRAB THE LIMITED PASS HERE ||")
+  // Aligining it to center
+     fmt.Println(center(greeting,182))
+	 fmt.Println(center(greetings,180))
+	 fmt.Println(center(greetingss,180))
+	 for j:= 0; j<190; j++{
+		fmt.Print("-")
+	}
+	// fmt.Printf("WELCOME TO (%v) EVENT BOOKING CLI.\n\n", conferenceName)
+	// fmt.Printf("We have total of %v tickets and %v are still available.\n\n", conferenceTickets, remainingTickets)
+	// fmt.Println("|| GRAB THE LIMITED PASS HERE ||")
 }
 
 func getsFirstNames() []string {
@@ -178,57 +223,44 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 	bookings = append(bookings, userData)
 	fmt.Println()
 	fmt.Printf("List of bookings is %v\n", bookings)
-	fmt.Println("*****************************************************************")
-	fmt.Println()
-	fmt.Printf("Thank you!! %v %v for Booking %v Tickets. You will Soon receive a Confirmation email at: %v\n", firstName, lastName, userTickets, email)
-	fmt.Printf("Only %v Tickets are remaining for %v\n", remainingTickets, conferenceName)
+	for j:= 0; j<190; j++{
+		fmt.Print("=")
+	}
+    time.Sleep(2 * time.Second)
+	fmt.Printf("Thank you!! %v %v for Booking %v Tickets.\n\nYou will Soon receive a Confirmation email at: %v\n", firstName, lastName, userTickets, email)
+	fmt.Printf("\nOnly %v Tickets are remaining for %v.\n\n", remainingTickets, conferenceName)
 
 }
 
 func sendTicket(userTickets uint, firstName string, lastName string, email string) {
-
-	time.Sleep(5 * time.Second)
-	fmt.Println("\n")
-	fmt.Println("\nSENDING TICKETS: ")
-	fmt.Print("please wait")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".")
-	time.Sleep(1 * time.Second)
-	fmt.Print(".\n")
+    fmt.Print("\n\n ==> Generating Tickets")
+	for k:=0; k<3; k++ {
+		time.Sleep(1 * time.Second)
+		fmt.Print("..")
+	}
+	fmt.Println("\n\n	[Generated Successfully]")
+	time.Sleep(4 * time.Second)
+	fmt.Print("\n ==> SENDING TICKETS ")
+	fmt.Print("Please Wait")
+	for i := 0; i < 20; i++ {
+		time.Sleep(1 * time.Second)
+		fmt.Print("...")
+	}
+	fmt.Print(".\n\n")
 	fmt.Println()
-	var ticket = fmt.Sprintf("%v tickets for: %v %v", userTickets, firstName, lastName)
-	fmt.Println("*****************************************************************")
-	fmt.Printf("%v \nto email address: %v\n", ticket, email)
+	var ticket = fmt.Sprintf("%v Tickets for: %v %v", userTickets, firstName, lastName)
 	fmt.Println("******************************************************************")
-	time.Sleep(2 * time.Second)
-	fmt.Println("Send sucessfully.....\nPlease Visit Again !!")
+	fmt.Printf("%v \nSend to email address: %v\n", ticket, email)
+	fmt.Println("******************************************************************")
+	time.Sleep(3 * time.Second)
+	fmt.Println("Send Sucessfully.....\n")
+	time.Sleep(1 * time.Second)
+	//fmt.Println(center(renderStr,180))
+	figletAsii(conferenceName)
+	fmt.Println(center("  We're grateful for your booking. Visit us again for more great experiences!!",189))
+	for j:= 0; j<190; j++{
+		fmt.Print("#")
+	}
+	fmt.Println("\n")
 	wg.Done() // Done()  Decrements the wait group counter by 1, So this is called by the goroutine to indicate that's it's finished (basically removes the waiting thread)
 }
