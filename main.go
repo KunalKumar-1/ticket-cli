@@ -7,17 +7,16 @@ import (
 	"image/color"
 	_ "image/png"
 	"os"
+	//"os/exec"
 	"sync"
 	"time"
-	"github.com/joho/godotenv" 
-	"github.com/mbndr/figlet4go"
-	"net/smtp"
+    "github.com/mbndr/figlet4go"
 )
 
-// package level variable
+// package level variable 
 const conferenceTickets int = 100
 
-var conferenceName = "Geex-Conf 2024."
+var conferenceName = "GEEX ENVENT'S"
 
 var remainingTickets uint = 100
 var bookings = make([]UserData, 0) //creating empty lists of map   //now  //struct
@@ -32,6 +31,17 @@ type UserData struct {
 
 var wg = sync.WaitGroup{} //creating waitgroup , package "sync" provides basic synncronization functionality
 
+// func  execute(cmd string) { //terminal cmd comamnds
+// 	out, err := exec.Command(cmd).Output()
+
+// 	if err != nil {
+// 		fmt.Printf("%s",err)
+// 	}
+//     output := string(out[:])
+// 	fmt.Println(output)
+// }
+
+// creating func center to align the greeting text in center
 func center(s string, w int) string {
 	return fmt.Sprintf("%[1]*s", -w, fmt.Sprintf("%[1]*s", (w+len(s))/2, s))
 }
@@ -66,6 +76,9 @@ func main() {
 
 	greetUser()
 
+	//greeting
+	//fmt.Printf("Welcome to %v booking application. \n", conferenceName)
+
 	for {
 
 		firstName, lastName, email, userTickets := getUserInput()
@@ -79,7 +92,7 @@ func main() {
 			go sendTicket(userTickets, firstName, lastName, email)
 
 			firstNames := getsFirstNames()
-			fmt.Printf("Names of the Booked tickects:  %v\n", firstNames)
+			fmt.Printf("The first names of the bookings are:  %v\n", firstNames)
 			fmt.Println()
 
 			if remainingTickets == 0 {
@@ -126,7 +139,7 @@ func greetUser() {
 	if err != nil {
 		panic(err)
 	}
-	ramp := "@#+=. " //@#+=.
+	ramp := "@#:|:. " //@#+=.
 	max := img.Bounds().Max
 	scaleX, scaleY := 10, 5 //scale
 	for y := 0; y < max.Y; y += scaleX {
@@ -153,14 +166,17 @@ func greetUser() {
 	 for j:= 0; j<190; j++{
 		fmt.Print("-")
 	}
-
+	// fmt.Printf("WELCOME TO (%v) EVENT BOOKING CLI.\n\n", conferenceName)
+	// fmt.Printf("We have total of %v tickets and %v are still available.\n\n", conferenceTickets, remainingTickets)
+	// fmt.Println("|| GRAB THE LIMITED PASS HERE ||")
 }
 
 func getsFirstNames() []string {
 
 	firstNames := []string{}
 	for _, booking := range bookings {
-
+		// strings.Fields(booking)
+		// var names = strings.Fields(booking)
 		firstNames = append(firstNames, booking.firstName)
 
 	} //range iterates over element for different data structure(for arrays and slice range provide the index and vlaue for each element)
@@ -198,17 +214,22 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 		email:           email,
 		numberOfTickets: userTickets,
 	}
-	
+	// //adding keyValue pairs
+	// userData["firstName"] = firstName
+	// userData["lastName"] = lastName
+	// userData["email"] = email
+	// userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets),10) //gives userTickets in string format
+
 	bookings = append(bookings, userData)
 	fmt.Println()
-	fmt.Printf("List of Bookings are %v\n", bookings)
+	fmt.Printf("List of bookings is %v\n", bookings)
 	for j:= 0; j<190; j++{
 		fmt.Print("=")
 	}
     time.Sleep(2 * time.Second)
-	fmt.Printf("Thank you!! %v %v for Booking %v Tickets.\n\n\nYou will Soon receive a Confirmation email at: %v\n", firstName, lastName, userTickets, email)
+	fmt.Printf("Thank you!! %v %v for Booking %v Tickets.\n\nYou will Soon receive a Confirmation email at: %v\n", firstName, lastName, userTickets, email)
 	fmt.Printf("\nOnly %v Tickets are remaining for %v.\n\n", remainingTickets, conferenceName)
-	fmt.Println("******************************************************************")
+
 }
 
 func sendTicket(userTickets uint, firstName string, lastName string, email string) {
@@ -218,67 +239,28 @@ func sendTicket(userTickets uint, firstName string, lastName string, email strin
 		fmt.Print("..")
 	}
 	fmt.Println("\n\n	[Generated Successfully]")
-	time.Sleep(2 * time.Second)
+	time.Sleep(4 * time.Second)
 	fmt.Print("\n ==> SENDING TICKETS ")
 	fmt.Print("Please Wait")
-	for i := 0; i < 5; i++ {
+	for i := 0; i < 20; i++ {
 		time.Sleep(1 * time.Second)
 		fmt.Print("...")
 	}
 	fmt.Print(".\n\n")
 	fmt.Println()
-	var ticket = fmt.Sprintf("   (%v) Tickets for: %v %v", userTickets, firstName, lastName)
+	var ticket = fmt.Sprintf("%v Tickets for: %v %v", userTickets, firstName, lastName)
 	fmt.Println("******************************************************************")
-	fmt.Printf("%v \n\n   Sending to email address: [%v]\n", ticket, email)
-
-	//messages for the mail box
-	//var msgs = fmt.Sprintf("Subject: Congrats🔥 %v Tickets Confirmed\n",conferenceName)
-	var msg = fmt.Sprintf("\nWelcome to the Geeky Group of Techies 🧑🏻‍💻 at %v.  \n\nDear %v %v , \nWe Confirm  your registration of %v Tickets for (%v)", conferenceName, firstName, lastName, userTickets, conferenceName)
-	var msgR = fmt.Sprintf("\nOnly %v Tickets are Remaining.",remainingTickets)
-	//fmt.Println("******************************************************************")
-	//Sending mail here.
-	sendMails(email,conferenceName,msg,msgR)
-
-	fmt.Println("\n\n       [Mail Send Sucessfully!]\n")
-	time.Sleep(4 * time.Second)
-	fmt.Println("******************************************************************\n")
+	fmt.Printf("%v \nSend to email address: %v\n", ticket, email)
+	fmt.Println("******************************************************************")
+	time.Sleep(3 * time.Second)
+	fmt.Println("Send Sucessfully.....\n")
+	time.Sleep(1 * time.Second)
 	//fmt.Println(center(renderStr,180))
 	figletAsii(conferenceName)
-	fmt.Println(center("  We're Greatful For Your Booking. Please Visit Us Again!!",189))
+	fmt.Println(center("  We're grateful for your booking. Visit us again for more great experiences!!",189))
 	for j:= 0; j<190; j++{
 		fmt.Print("#")
 	}
 	fmt.Println("\n")
 	wg.Done() // Done()  Decrements the wait group counter by 1, So this is called by the goroutine to indicate that's it's finished (basically removes the waiting thread)
-}
-
-//smtp PlainAuth
-func sendMails(email string,conferenceName string, msg string,msgR string) {
-
-	err2 := godotenv.Load()
-     if err2 != nil {
-		panic(err2)
-	 }
-	 envVar := os.Getenv("mail_pass")
-	
-	auth := smtp.PlainAuth(
-		"",   //keep it empty for username to be your mail id
-		"YourMail@gmail.com",//from whoch you are goona send the mail
-	         envVar,  // you access token in the form of environment variable here
-		"smtp.gmail.com",
-	)
-
-	message := "Subject: Your Registration Confirmation for "+conferenceName+"\n"+ msg +"\nLooking forward to seeing you at the event.\n "+msgR +"\nFor any queries please reach out to the organizer at: Team Geex.\n\nBest Regards,\nTeam "+ conferenceName
-
-	err := smtp.SendMail(
-		"smtp.gmail.com:587", //587 for gmail
-        auth,
-		"YourMail@gmail.com", //from which you are going to send the mail
-		[]string{email},
-		[]byte(message),
-	)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
 }
