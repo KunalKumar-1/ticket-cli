@@ -35,7 +35,7 @@ check out Go Documentation for GO:
 To clone this project run
 
 ```bash
-git clone https://github.com/KunalKumar-1/go-projects 
+git clone https://github.com/KunalKumar-1/ticket-cli
 ```
 
 
@@ -45,7 +45,7 @@ git clone https://github.com/KunalKumar-1/go-projects
 Go to the project directory
 
 ```bash
-cd go-projects
+cd ticket-cli
 ```
 ## Initialise Go module(if needed)
 In case if you need to create the go Module
