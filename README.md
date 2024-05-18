@@ -14,11 +14,11 @@ The `Go CLI` (Command-Line Interface) Ticket Generator is a robust and efficient
 
 ### 2. Unique Ticket ID Generation: 
 Each ticket is assigned a unique identifier to ensure proper tracking and validation.
-Ticket Creation: The application processes the inputs to generate a digital ticket containing all the necessary details, including the unique ticket ID.
+- Ticket Creation: The application processes the inputs to generate a digital ticket containing all the necessary details, including the unique ticket ID.
 ### 3. Email Notification:
 **Automated Email Sending:** Once the ticket is generated, the application automatically sends an email to the provided address. This email contains the ticket with all relevant details and the unique ticket ID
-## Technical Overview
 
+## Technical Overview:
 -  __Programming Language:__ The application is built using Go, known for its simplicity, performance, and concurrency capabilities, making it ideal for handling input/output operations and email notifications efficiently.
 -  **Input Handling:** Utilizes Go’s `flag` package to parse command-line arguments, ensuring a seamless user experience.
 - **Unique ID Generation:** Implements a `UUID` generation library to create unique ticket identifiers.
@@ -60,7 +60,7 @@ go mod init
 
 For setting up go env.
 ```bash
-  go get github.com/joho/godotenv
+go get github.com/joho/godotenv
 ```
 For setting up figlet4go.
 ```bash
@@ -85,7 +85,7 @@ go run . | lolcat
 "struct" which provides basic syncronization , WaitGroup,
 used various Goroutines to wait for(increase the counter by the provided number).
 
-## How it works
+## How it works ?
 1. Run the CLI Application: The user launches the application from the command line.
 1. Provide Necessary Details: The user inputs their name, email, number of tickets, and event date.
 1. Process and Generate Ticket: The application processes these details, generates a unique ticket ID, and creates the ticket.
@@ -94,7 +94,7 @@ used various Goroutines to wait for(increase the counter by the provided number)
 
 ## 
 
-**Client:** Go , ntp/smtp, [godotenv](github.com/joho/godotenv),[figlet4go](github.com/mbndr/figlet4go), linux 
+**Client:** Go , ntp/smtp, [godotenv](github.com/joho/godotenv) ,[figlet4go](github.com/mbndr/figlet4go) , linux 
 
 ## Screenshots
 ```start ```
